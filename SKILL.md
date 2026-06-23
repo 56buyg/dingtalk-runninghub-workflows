@@ -1,7 +1,7 @@
 ---
 name: dingtalk-runninghub-workflows
 description: >-
-  Build, modify, or debug DingTalk AI Table automations for RunningHub workflows and compatible third-party providers. Use when an agent needs a bilingual Chinese/English guided workflow for DingTalk submit nodes, RunningHub text-to-image or image-to-image jobs, quantity/batch variables, provider-specific submit adapters, callback/query adapters, stable task IDs or external IDs, normalized outputs, or troubleshooting DingTalk Python and response validation errors. 适用于钉钉宜搭/多维表格/AI 表格自动化对接 RunningHub 或其他第三方工具时，设计发起节点、回调/查询节点、字段映射、批量出图数量变量和错误排查。
+  Build, modify, or debug DingTalk AI Table automations for RunningHub workflows and compatible third-party providers. Use when an agent needs a bilingual Chinese/English guided workflow for DingTalk submit nodes, RunningHub text-to-image or image-to-image jobs, quantity/batch variables, provider-specific submit adapters, callback/query adapters, stable task IDs or external IDs, normalized outputs, official DingTalk developer-standard lookup through open.dingtalk.com search and OSS docs, or troubleshooting DingTalk Python and response validation errors. 适用于钉钉宜搭/多维表格/AI 表格自动化对接 RunningHub 或其他第三方工具时，设计发起节点、回调/查询节点、字段映射、批量出图数量变量、查询钉钉官方开发标准和错误排查。
 ---
 
 # DingTalk RunningHub Workflows / 钉钉 RunningHub 工作流
@@ -19,7 +19,44 @@ This skill is plain Markdown plus optional Python templates. It can be reused by
 - Read `SKILL.md` first for the guided workflow.
 - Read `references/automation-guide.md` when field bindings, adapter contracts, callback normalization, or troubleshooting details are needed.
 - Use `scripts/runninghub_submit.py` only as the RunningHub submit-node template.
+- Use `scripts/dingtalk_doc_lookup.py` when DingTalk OpenAPI standards, robot messages, approval APIs, card messages, or error codes must be checked against official docs.
 - Do not treat the RunningHub script as universal code for every provider.
+
+## Official DingTalk Docs / 钉钉官方开发标准
+
+When a workflow needs DingTalk developer standards, query official docs before writing code.
+
+当工作流涉及钉钉开发标准时，先查询官方文档，再生成代码或节点配置。
+
+Verified lookup route:
+
+```text
+Search API:
+GET https://open.dingtalk.com/api/open/search?keyword={query}&page=1&pageSize=5
+
+Document body:
+https://icms-document.oss-cn-beijing.aliyuncs.com/zh-CN/dingtalk/{namespace}/topics/{slug}.html
+```
+
+Use the bundled helper:
+
+```bash
+python scripts/dingtalk_doc_lookup.py "钉钉机器人 webhook 卡片消息" --fetch-first
+```
+
+Rules:
+
+- Prefer this official-doc lookup for DingTalk robot webhook, card message, approval, table/form API, auth, and error-code questions.
+- Keep the official link with any answer or generated code.
+- Use search results to pick the most relevant `namespace/slug`, then fetch the OSS HTML body for exact parameters and examples.
+- Treat `POST https://api.dingtalk.com/v1.0/aiPaaS/ai/complete` as unverified until a working `model`, `messages`, and `accessToken` request is provided and tested.
+
+规则：
+
+- 钉钉机器人 webhook、卡片消息、审批、表格/表单 API、鉴权、错误码问题，优先走这个官方文档查询链路。
+- 输出答案或代码时保留官方文档链接。
+- 先用搜索结果判断最相关的 `namespace/slug`，再读取 OSS HTML 正文确认参数和示例。
+- `POST https://api.dingtalk.com/v1.0/aiPaaS/ai/complete` 暂不作为默认标准源，除非已经提供并验证可用的 `model`、`messages` 和 `accessToken` 请求。
 
 ## First Confirmation / 第一步确认
 
@@ -96,21 +133,23 @@ Recommended submit return shape / 推荐发起节点返回：
 
 1. Ask the First Confirmation.
 2. Identify whether the submit provider is RunningHub or another tool.
-3. Confirm DingTalk input fields, especially prompt, app/workflow ID, and quantity.
-4. Design the submit adapter and return DingTalk extraction JSON.
-5. Ask for the callback/query response sample before writing the continuation node.
-6. Normalize completion results into status, output links/files/text/JSON, and error message.
-7. Return DingTalk update-record mapping.
+3. If DingTalk OpenAPI behavior is involved, look up official DingTalk docs first.
+4. Confirm DingTalk input fields, especially prompt, app/workflow ID, and quantity.
+5. Design the submit adapter and return DingTalk extraction JSON.
+6. Ask for the callback/query response sample before writing the continuation node.
+7. Normalize completion results into status, output links/files/text/JSON, and error message.
+8. Return DingTalk update-record mapping.
 
 中文流程：
 
 1. 先确认“RunningHub 标准”还是“其他第三方工具”。
 2. 确认发起节点调用的工具。
-3. 确认钉钉字段：提示词、应用/工作流 ID、数量变量等。
-4. 输出发起节点代码或 HTTP 配置，以及参数提取 JSON。
-5. 在写回调/查询节点前，先拿真实响应样例。
-6. 把结果标准化为状态、输出链接/文件/文本/JSON、失败原因。
-7. 输出钉钉记录更新映射。
+3. 如果涉及钉钉 OpenAPI 行为，先查钉钉官方文档。
+4. 确认钉钉字段：提示词、应用/工作流 ID、数量变量等。
+5. 输出发起节点代码或 HTTP 配置，以及参数提取 JSON。
+6. 在写回调/查询节点前，先拿真实响应样例。
+7. 把结果标准化为状态、输出链接/文件/文本/JSON、失败原因。
+8. 输出钉钉记录更新映射。
 
 ## RunningHub Main Path / RunningHub 主线
 
@@ -174,6 +213,10 @@ Read `scripts/runninghub_submit.py` only when the submit provider is RunningHub 
 
 只有在发起节点是 RunningHub，或需要参考 Python 发起适配器写法时，读取 `scripts/runninghub_submit.py`。
 
+Read or run `scripts/dingtalk_doc_lookup.py` when DingTalk official API standards need verification.
+
+需要核对钉钉官方 API 标准时，读取或运行 `scripts/dingtalk_doc_lookup.py`。
+
 ## Maintenance / 维护约定
 
 When new validated workflow content is added later, update the narrowest relevant file:
@@ -181,6 +224,7 @@ When new validated workflow content is added later, update the narrowest relevan
 - Put routing rules and core behavior in `SKILL.md`.
 - Put field mappings, node contracts, callback shapes, and troubleshooting notes in `references/automation-guide.md`.
 - Put reusable RunningHub submit code in `scripts/runninghub_submit.py`.
+- Put reusable DingTalk official-doc lookup code in `scripts/dingtalk_doc_lookup.py`.
 - Keep important instructions bilingual, with Chinese first when the workflow is DingTalk-specific.
 - Commit the change and push the repository to `main`.
 
@@ -189,5 +233,6 @@ When new validated workflow content is added later, update the narrowest relevan
 - 路由规则和核心行为放进 `SKILL.md`。
 - 字段映射、节点约定、回调格式、报错排查放进 `references/automation-guide.md`。
 - 可复用的 RunningHub 发起代码放进 `scripts/runninghub_submit.py`。
+- 可复用的钉钉官方文档查询代码放进 `scripts/dingtalk_doc_lookup.py`。
 - 重要说明保持中英文双语；钉钉场景优先中文。
 - 修改后提交并推送到 `main`。

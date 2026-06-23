@@ -25,6 +25,52 @@ This prevents accidental assumptions when the submit node and callback/query nod
 
 这样可以避免误把所有节点都按 RunningHub 处理，尤其是发起节点和回调/查询节点可能属于不同工具时。
 
+## DingTalk Official Docs Lookup / 钉钉官方文档查询
+
+Use this verified route when the task needs DingTalk developer standards:
+
+```text
+GET https://open.dingtalk.com/api/open/search?keyword={query}&page=1&pageSize=5
+```
+
+Search returns official document candidates with title, summary, link, and repository. Convert links like:
+
+```text
+https://developers.dingtalk.com/document/{namespace}/{slug}
+```
+
+to full document-body HTML:
+
+```text
+https://icms-document.oss-cn-beijing.aliyuncs.com/zh-CN/dingtalk/{namespace}/topics/{slug}.html
+```
+
+Use the helper:
+
+```bash
+python scripts/dingtalk_doc_lookup.py "钉钉机器人 webhook 卡片消息" --fetch-first
+```
+
+中文流程：
+
+1. 用自然语言关键词调用 `open.dingtalk.com/api/open/search`。
+2. 从搜索结果中读取官方标题、摘要、链接和仓库分类。
+3. 将 `/document/{namespace}/{slug}` 转成 OSS 正文地址。
+4. 读取 HTML 正文，提取接口地址、请求方式、参数表、示例和错误码。
+5. 回答时附上官方链接；生成代码时以正文参数表为准。
+
+Validated example:
+
+- Query: `钉钉机器人 webhook 卡片消息`
+- Relevant result: `自定义机器人发送群消息`
+- Official link: `https://developers.dingtalk.com/document/orgapp/custom-robots-send-group-messages`
+- Body source: `https://icms-document.oss-cn-beijing.aliyuncs.com/zh-CN/dingtalk/orgapp/topics/custom-robots-send-group-messages.html`
+- Observed standards include `POST https://oapi.dingtalk.com/robot/send`, `access_token`, optional `timestamp` and `sign`, `msgtype`, and message bodies for `text`, `markdown`, `actionCard`, and `feedCard`.
+
+Do not treat `POST https://api.dingtalk.com/v1.0/aiPaaS/ai/complete` as a verified standard-query source yet. Test results showed the endpoint is reachable, but a usable answer requires request fields such as `messages` and `accessToken`; keep it out of the default workflow until a working authenticated request is confirmed.
+
+暂不要把 `POST https://api.dingtalk.com/v1.0/aiPaaS/ai/complete` 当作已验证标准查询源。当前测试只确认接口可达，但返回提示需要 `messages` 和 `accessToken` 等字段；在拿到可用鉴权请求并跑通前，不放入默认流程。
+
 ## Recommended Table Fields / 推荐表格字段
 
 Use provider-neutral names when the workflow may call multiple tools.

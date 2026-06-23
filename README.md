@@ -22,6 +22,7 @@ A bilingual Skill for building DingTalk AI Table automations that submit jobs to
 - RunningHub 文生图、图生图等发起节点
 - 数量变量，一次生成多张图
 - 钉钉字段到第三方 API 参数的映射
+- 钉钉官方开发文档查询与标准核对
 - 发起节点和回调/查询节点分离
 - RunningHub 之外的第三方工具扩展方式
 - 钉钉 Python 节点常见错误排查
@@ -31,6 +32,7 @@ This repository captures a reusable automation Skill for:
 - RunningHub text-to-image and image-to-image submit nodes
 - Quantity/batch variables for generating multiple images
 - DingTalk field to external API parameter mapping
+- Official DingTalk developer-doc lookup and standard verification
 - Separate submit and callback/query adapters
 - Extension to non-RunningHub third-party providers
 - Troubleshooting DingTalk Python node and output validation errors
@@ -61,6 +63,7 @@ SKILL.md                          Core bilingual Skill instructions
 agents/openai.yaml                OpenAI Agent UI metadata
 references/automation-guide.md    Detailed field mappings and adapter contracts
 scripts/runninghub_submit.py      RunningHub submit-node Python template
+scripts/dingtalk_doc_lookup.py    DingTalk official-doc lookup helper
 ```
 
 ## 维护方式 / Maintenance
