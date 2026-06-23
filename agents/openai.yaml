@@ -1,4 +1,4 @@
 interface:
-  display_name: "DingTalk External Tool Workflows"
-  short_description: "Build guided DingTalk AI Table external-tool automations"
-  default_prompt: "Use $dingtalk-external-tool-workflows to configure a DingTalk AI Table automation that calls an external tool."
+  display_name: "DingTalk RunningHub Workflows / 钉钉 RunningHub 工作流"
+  short_description: "Build bilingual DingTalk AI Table to RunningHub automations"
+  default_prompt: "Use $dingtalk-runninghub-workflows to configure a bilingual DingTalk AI Table workflow for RunningHub or a compatible third-party tool."
