@@ -1,0 +1,4 @@
+interface:
+  display_name: "DingTalk External Tool Workflows"
+  short_description: "Build guided DingTalk AI Table external-tool automations"
+  default_prompt: "Use $dingtalk-external-tool-workflows to configure a DingTalk AI Table automation that calls an external tool."
