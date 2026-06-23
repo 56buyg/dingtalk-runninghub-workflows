@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">DingTalk RunningHub Workflows</title>
+  <desc id="desc">A DingTalk table connected to a RunningHub workflow node.</desc>
+  <defs>
+    <linearGradient id="bg" x1="32" x2="224" y1="20" y2="236" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1677ff"/>
+      <stop offset="0.55" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="hub" x1="148" x2="220" y1="80" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+    <filter id="shadow" width="140%" height="140%" x="-20%" y="-20%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect width="256" height="256" rx="46" fill="url(#bg)"/>
+  <path d="M30 200c41-20 79-19 116 1 32 17 59 20 80 7v26H30z" fill="#ffffff" opacity="0.08"/>
+
+  <g filter="url(#shadow)">
+    <rect x="38" y="57" width="92" height="120" rx="18" fill="#f8fafc"/>
+    <rect x="53" y="76" width="62" height="14" rx="7" fill="#1677ff"/>
+    <rect x="54" y="108" width="22" height="18" rx="5" fill="#dbeafe"/>
+    <rect x="84" y="108" width="31" height="18" rx="5" fill="#dbeafe"/>
+    <rect x="54" y="135" width="22" height="18" rx="5" fill="#ccfbf1"/>
+    <rect x="84" y="135" width="31" height="18" rx="5" fill="#ccfbf1"/>
+  </g>
+
+  <path d="M129 116h28c14 0 19 19 7 26l-11 7" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="10"/>
+  <path d="M154 128l14 12-17 8" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+
+  <g filter="url(#shadow)">
+    <circle cx="187" cy="136" r="46" fill="url(#hub)"/>
+    <circle cx="187" cy="136" r="22" fill="#ffffff" opacity="0.94"/>
+    <circle cx="187" cy="136" r="8" fill="#0f766e"/>
+    <circle cx="187" cy="91" r="9" fill="#ffffff"/>
+    <circle cx="226" cy="158" r="9" fill="#ffffff"/>
+    <circle cx="148" cy="158" r="9" fill="#ffffff"/>
+    <path d="M187 100v26M207 148l12 6M167 148l-12 6" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="7"/>
+  </g>
+</svg>

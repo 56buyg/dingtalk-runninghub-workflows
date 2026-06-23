@@ -1,4 +1,15 @@
-# dingtalk-runninghub-workflows
+<p align="center">
+  <img src="assets/icon.svg" alt="DingTalk RunningHub Workflows icon" width="128" />
+</p>
+
+<h1 align="center">dingtalk-runninghub-workflows</h1>
+
+<p align="center">
+  <a href="SKILL.md"><img alt="Skill entry" src="https://img.shields.io/badge/Skill-SKILL.md-1677ff"></a>
+  <a href="scripts/runninghub_submit.py"><img alt="Python template" src="https://img.shields.io/badge/Python-RunningHub%20submit-0f766e"></a>
+  <img alt="Bilingual" src="https://img.shields.io/badge/Docs-%E4%B8%AD%E8%8B%B1%E5%8F%8C%E8%AF%AD-f59e0b">
+  <img alt="DingTalk workflow" src="https://img.shields.io/badge/DingTalk-AI%20Table-111827">
+</p>
 
 钉钉 AI 表格 / 多维表格对接 RunningHub 的自动化工作流 Skill。
 
